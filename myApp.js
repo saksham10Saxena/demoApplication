@@ -1,9 +1,14 @@
 var express = require('express');
 const mysql = require('mysql2');
+var mime    =   require('mime');
 var bodyParser = require('body-parser');
 var path = require('path');
 
 var app = express();
+
+
+app.use(bodyParser.json());
+app.use(express.static('public'));
 
 // create connection
 const con = mysql.createConnection({
@@ -13,74 +18,6 @@ const con = mysql.createConnection({
     database: 'mydb2'
   });
 
-//   con.connect(function(err) {
-//     if (err) throw err;
-//     console.log("Connected!");
-    // con.query("CREATE DATABASE mydb2", function (err, result) {
-    //   if (err) throw err;
-    //   console.log("Database created");
-    // });
-    // var sql = "CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))";
-        // con.query(sql, (err, result) => {
-    //     if (err) throw err;
-    //     console.log("Table Created");
-    // });
-    
-    // var inserting = "INSERT INTO customers (name, address) VALUES ?";
-    // var values = [
-    //     ['Ramesh', 'NH-24'],
-    //     ['Adil', 'Kashmir Valley'],
-    //     ['Ahmed Dar', 'Pulwama'],
-    //     ['Mazood Azhar', 'Peshawar'],
-    //     ['Jaesh e Mohammed', 'Haafiz Saed']
-    // ]
-
-
-    // con.query(inserting, [values], function (err, result) {
-    //     if (err) throw err;
-    //      console.log("Number of records inserted: " + result.affectedRows);
-    // });
-
-
-//   });
-
-//   app.get('/mysql', (req, res) => {
-//     con.connect((error) => {
-//         if (err) throw err;
-//         console.log("Connected!");
-
-//         con.query("SELECT * FROM customers", function(err, result, fields) {
-//             if (err) throw err;
-//             console.log(fields);
-//             console.log(result);
-//             res.send(result);
-//         });
-//     });
-// });
-// app.get('/mysql', (req, res) => {
-//     con.getConnection((error, tempCont) => {
-//         if (err) { 
-//             tempCont.release();
-//             console.log('error');
-//         }    
-//         console.log(connected)
-//         tempCont.query(
-//             'SELECT * FROM `customers`',
-//             function(err, results, fields, rows) {
-//               console.log(results); // results contains rows returned by server
-//               console.log(fields); // fields contains extra meta data about results, if available
-//               res.json(rows);
-//             }
-//           );
-//     })
-// })
-// con.query(
-//     'SELECT * FROM `customers` WHERE `name` = "Ramesh"',
-//     function(err, results, fields) {
-//       console.log(results); // results contains rows returned by server
-//       console.log(fields); // fields contains extra meta data about results, if available
-//     }
-//   );
 
 con.connect(function(err){
     if(!err) {
@@ -90,48 +27,42 @@ con.connect(function(err){
     }
     });
 
+    
+
+    app.post('/insertingDataUsingAngularjs', function(req, res, next) {
+        
+        var value = req.body; 
+        console.log('request received:', req.body);
+         var query = 'INSERT INTO customers  (name, address)  value ?';     
+        con.query(query, [value], function(err, res){
+            if (err) {
+                console.error(err);
+                return res.send(err);
+            } else{
+                return res.send('Ok');
+            }
+        });
+    })
+
     app.get('/mysql', (req, res) => {
          con.query(
-         'SELECT * FROM `customers` WHERE `name` = "Ramesh"',
+        //  'SELECT * FROM `customers` WHERE `name` = "Ramesh"',    
+         'SELECT * FROM `customers`',
           function(err, rows, fields) {
               con.end();
               if (err) throw err;
-              console.log('The solution is: ', rows);
-            console.log(results); // results contains rows returned by server
+            //   console.log('The solution is: ', rows);
+              console.log(rows);
+            // console.log(results); // results contains rows returned by server
             console.log(fields); // fields contains extra meta data about results, if available
+            console.log(rows[0].name);
+            // res.send('Hello, ' + rows[1].name);
+            res.json(rows);
      
       });
     });
 
 
-
-
-  
-
-//   connection.query(
-//     'SELECT * FROM `table` WHERE `name` = "Page" AND `age` > 45',
-//     function(err, results, fields) {
-//       console.log(results); // results contains rows returned by server
-//       console.log(fields); // fields contains extra meta data about results, if available
-//     }
-//   );
-
-//   connection.query(
-//     'SELECT * FROM `table` WHERE `name` = ? AND `age` > ?',
-//     ['Page', 45],
-//     function(err, results) {
-//       console.log(results);
-//     }
-//   );
-
-
-// MiddleWare
-// var logger = function(req, res, next){
-//     console.log('Logging...');
-//     next();
-// }
-
-// app.use(logger); 
 
 // View Engine
  app.set('View Engine', 'ejs');
@@ -141,7 +72,7 @@ con.connect(function(err){
  app.use(bodyParser.json());
  app.use(bodyParser.urlencoded({extended: false}));
 
- app.use(express.static(path.join(__dirname, 'public'))); // Set Static Path
+ app.use(express.static(path.join(__dirname, '/public'))); // Set Static Path
 
 
 // app.get('/', (req, res) => {
