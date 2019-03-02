@@ -33,14 +33,12 @@ con.connect(function(err){
         
         var value = req.body; 
         console.log('request received:', req.body);
-         var query = 'INSERT INTO customers  (name, address)  value ?';     
-        con.query(query, [value], function(err, res){
-            if (err) {
-                console.error(err);
-                return res.send(err);
-            } else{
-                return res.send('Ok');
-            }
+        var name = req.body.name;
+        var address = req.body.address;
+         var sql = "INSERT INTO customers  (name, address)  values ('"+name+"',  '"+address+"')";   
+        con.query(sql, function(err, dbres){
+          if (err) throw err;
+          res.json({"success":"true"});
         });
     })
 
