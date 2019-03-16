@@ -27,19 +27,100 @@ con.connect(function(err){
     }
     });
 
+    // var sql1 = "CREATE TABLE loginPage (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL)";
     
+    // con.query(sql1, (err, result) => {
+    //     if (err) throw err;
+    //     console.log("Table Created");
+    //     var inserting1 = "INSERT INTO customers (name, address) VALUES ?";
+    //     var values1 = [
+    //         ['Ram', 'ramarama'],
+    //         ['Shyam', 'shyamashyama'],
+    //         ['Ganshyam', 'ganshyamaganshyama'],
+    //         ['Masood Azhar', 'terroristterrorist']
+    //     ]
+    //     con.query(inserting1, [values1], function(err, result){
+    //         if (err) throw err;
+    //         console.log("Number")
+    //     })
+    // })
 
-    app.post('/insertingDataUsingAngularjs', function(req, res, next) {
+    // app.post('/creatingTables', function(req, res, next) {
+
+    // })
+
+    con.connect(function(err) {
+      if (err) throw err;
+      con.query('SELECT * FROM groups', function(err, result, fields) {
+        if(err) throw err;
+        //  console.log(result);
+      });
+    });
+
+    app.get('/loginPage', function(req, res) {
+      con.query('SELECT * FROM loginPage', function(err, rows, fields) {
+        con.end();
+        if (err) throw err;
+        console.log(rows);
+        // console.log(fields);
+        res.json(rows);
+      })
+    })
+    
+    app.get('/taskName', function(req, res) {
+      con.query('SELECT * FROM taskName', function(err, rows, fields) {
+        con.end();
+        if (err) throw err;
+        console.log(rows);
+        // console.log(fields);
+        res.json(rows);
+      })
+    })
+
+    app.get('/groupss', function(req, res) {
+      con.query('SELECT * FROM groups', function(err, rows, fields) {
+        con.end();
+        if (err) throw err;
+        console.log(rows);
+        // console.log(fields);
+        res.json(rows);
+      })
+    })
+
+    // app.get('/', function(req, res) {
+    //   con.query('SELECT * FROM loginPage', function(err, rows, fields) {
+    //     con.end();
+    //     if (err) throw err;
+    //     console.log(rows);
+    //     // console.log(fields);
+    //     res.json(rows);
+    //   })
+    // })
+
+
+     app.post('/insertingDataUsingAngularjs', function(req, res, next) {
         
-        var value = req.body; 
-        console.log('request received:', req.body);
-        var name = req.body.name;
-        var address = req.body.address;
-         var sql = "INSERT INTO customers  (name, address)  values ('"+name+"',  '"+address+"')";   
-        con.query(sql, function(err, dbres){
-          if (err) throw err;
-          res.json({"success":"true"});
-        });
+         var value = req.body; 
+         console.log('request received:', req.body);
+         var name = req.body.name;
+         var address = req.body.address;
+          var sql = "INSERT INTO customers  (name, address)  values ('"+name+"',  '"+address+"')";   
+         con.query(sql, function(err, dbres){
+           if (err) throw err;
+           res.json({"success":"true"});
+         });
+     })
+
+    app.post('/addingUser', function(req, res, next) {
+      var value = req.body;
+      console.log('request received:', req.body);
+      var username = req.body.username;
+      var password = req.body.password;
+      var sql3 = "INSERT INTO loginPage (username, password) values ('"+username+"', '"+password+"')";
+      con.query(sql3, function(err, resp) {
+        if (err) throw err;
+        res.json({"success": "true"});
+      });
     })
 
     app.get('/mysql', (req, res) => {
@@ -92,6 +173,6 @@ app.get('/', (req, res) => {
 //     });
 // })
 
-app.listen(3000, function() {
-    console.log('Server started on port 3000');
+app.listen(5000, function() {
+    console.log('Server started on port 5000');
 });
