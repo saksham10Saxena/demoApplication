@@ -1,3 +1,10 @@
+angular.module('myApp').config(function($routeProvider){
+    $routeProvider.
+    when('/', {
+        templateUrl:'./../../myProject3/toDoApp/index.html'
+    })
+})
+
 angular.module('myApp').controller('mainController', function($scope, $http) {
     $scope.data = {};
     $scope.reset = function() {
@@ -25,7 +32,7 @@ angular.module('myApp').controller('mainController', function($scope, $http) {
        $scope.submit = function() {
            console.log('clicked submit');
            $http({
-               url:'http://localhost:5000/addingUser',
+               url:'http://localhost:5000/login',
                method: 'POST',
                data: $scope.data
            }).then(function(httpResponse) {

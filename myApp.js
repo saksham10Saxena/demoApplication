@@ -4,6 +4,7 @@ var mime    =   require('mime');
 var bodyParser = require('body-parser');
 var path = require('path');
 
+
 var app = express();
 
 
@@ -27,27 +28,11 @@ con.connect(function(err){
     }
     });
 
-    // var sql1 = "CREATE TABLE loginPage (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL)";
+    // module.exports = conl;
+
     
-    // con.query(sql1, (err, result) => {
-    //     if (err) throw err;
-    //     console.log("Table Created");
-    //     var inserting1 = "INSERT INTO customers (name, address) VALUES ?";
-    //     var values1 = [
-    //         ['Ram', 'ramarama'],
-    //         ['Shyam', 'shyamashyama'],
-    //         ['Ganshyam', 'ganshyamaganshyama'],
-    //         ['Masood Azhar', 'terroristterrorist']
-    //     ]
-    //     con.query(inserting1, [values1], function(err, result){
-    //         if (err) throw err;
-    //         console.log("Number")
-    //     })
-    // })
+    
 
-    // app.post('/creatingTables', function(req, res, next) {
-
-    // })
 
     con.connect(function(err) {
       if (err) throw err;
@@ -98,30 +83,44 @@ con.connect(function(err){
     // })
 
 
-     app.post('/insertingDataUsingAngularjs', function(req, res, next) {
+    //  app.post('/insertingDataUsingAngularjs', function(req, res, next) {
         
-         var value = req.body; 
-         console.log('request received:', req.body);
-         var name = req.body.name;
-         var address = req.body.address;
-          var sql = "INSERT INTO customers  (name, address)  values ('"+name+"',  '"+address+"')";   
-         con.query(sql, function(err, dbres){
-           if (err) throw err;
-           res.json({"success":"true"});
-         });
-     })
+    //      var value = req.body; 
+    //      console.log('request received:', req.body);
+    //      var name = req.body.name;
+    //      var address = req.body.address;
+    //       var sql = "INSERT INTO customers  (name, address)  values ('"+name+"',  '"+address+"')";   
+    //      con.query(sql, function(err, dbres){
+    //        if (err) throw err;
+    //        res.json({"success":"true"});
+    //      });
+    //  })
 
-    app.post('/addingUser', function(req, res, next) {
+    app.post('/login', function(req, res, next) {
       var value = req.body;
       console.log('request received:', req.body);
-      var username = req.body.username;
+      var email = req.body.email;
       var password = req.body.password;
-      var sql3 = "INSERT INTO loginPage (username, password) values ('"+username+"', '"+password+"')";
-      con.query(sql3, function(err, resp) {
+      var sql3 = "SELECT * FROM user WHERE email='"+email+"' AND password='"+password+"'";
+      // var sql3 = "INSERT INTO loginPage (username, password) values ('"+username+"', '"+password+"')";
+      con.query(sql3, function(err, rows, fields, resp) {
         if (err) throw err;
+        console.log(rows);
         res.json({"success": "true"});
+        res.json(rows);
       });
     })
+
+    //  app.get('/login', function(req, res) {
+    //    sql4 = "SELECT * FROM loginPage WHERE username='"+username+"' AND password='"+password+"'";
+    //    con.query(sql4, function(err, resp) {
+    //      if (err) throw err;
+    //      res.json({"success": "true"});
+    //      res.json(rows);
+    //    });
+    //  })
+
+
 
     app.get('/mysql', (req, res) => {
          con.query(
