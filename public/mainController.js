@@ -1,10 +1,15 @@
 angular.module('myApp').config(function($routeProvider){
     $routeProvider.
     when('/', {
-        templateUrl:'./../../myProject3/toDoApp/index.html'
+        templateUrl:'././../../myProject3/toDoApp/index.html'
+    })
+    $routeProvider.
+    when('/', {
+        templateUrl:'signUp.ejs'
     })
 })
-
+ 
+    
 angular.module('myApp').controller('mainController', function($scope, $http) {
     $scope.data = {};
     $scope.reset = function() {
@@ -44,4 +49,25 @@ angular.module('myApp').controller('mainController', function($scope, $http) {
                console.log('response:', httpResponse);
            })
        }
+
+       $scope.signUp = function() {
+        console.log('clicked submit');
+        $http({
+            url:'http://localhost:5000/signUp',
+            method: 'POST',
+            data: $scope.data
+        }).then(function(httpResponse) {
+            $scope.successMessage = "Data Submitted Successfully"
+            $scope.successMessagebox = true;
+           $scope.data = {};
+         //    $scope.successMessagebox = false;
+
+            console.log('response:', httpResponse);
+        })
+    }
+
 });
+
+       
+
+              

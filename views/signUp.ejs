@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sign Up</title>
+    </head>
+    <body>
+        <form type="signUpForm"><br>
+            First Name:<br>
+            <input type="text" name="fname" ng-model="data.fname" required><br><br>
+            Last Name:<br>
+            <input type="text" name="lname" ng-model="data.lname" required><br><br>
+            Gender:<br><br>
+            <input type="radio" name="gender" value="male"   ng-model="data.gender"> Male<br>
+            <input type="radio" name="gender" value="female" ng-model="data.gender"> Female<br>
+            <input type="radio" name="gender" value="other"  ng-model="data.gender"> Other<br><br> 
+            Email:<br>
+            <input type="email" name="email" ng-model="data.email" required>
+            <span ng-show="loginForm.email.$dirty && loginForm.email.$error.required">Required!</span>
+            <span ng-show="loginForm.email.$dirty && loginForm.email.$error.email">Not an email!</span>
+            <br><br>
+            Password: <br>
+            <input type="password" name="password" ng-model="data.password" required ng-minlength="5", ng-maxlength=15>
+            <span ng-show="loginForm.password.$dirty && loginForm.password.$error.required">Required!</span>
+            <span ng-show="loginForm.password.$dirty && loginForm.password.$error.minlength">Too Short</span>
+            <span ng-show="loginForm.password.$dirty && loginForm.password.$error.maxlength">Too Long</span>
+            <br><br>
+            Re-Enter Password: <br>
+            <input type="password" name="password" ng-model="data.password" required ng-minlength="5", ng-maxlength=15><br><br>
+
+            <input type="submit" name="Add User" value="Add User" ng-click="signUp()">
+            
+
+
+
+        </form>
+    </body>
+</html>

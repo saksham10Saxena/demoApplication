@@ -107,7 +107,25 @@ con.connect(function(err){
         if (err) throw err;
         console.log(rows);
         res.json({"success": "true"});
-        res.json(rows);
+        // res.json(rows);
+      });
+    })
+
+    app.post('/signUp', function(req, res, next) {
+      var value = req.body;
+      console.log('request received:', req.body);
+      var firstName = req.body.fname;
+      var lastName = req.body.lname;
+      var gender = req.body.gender;
+      var email = req.body.email;
+      var password = req.body.password;
+      var sql5 = "INSERT INTO user (first_name, last_name, gender, email, password)  values ('"+firstName+"',  '"+lastName+"', '"+gender+"', '"+email+"', '"+password+"')";
+      // var sql3 = "INSERT INTO loginPage (username, password) values ('"+username+"', '"+password+"')";
+      con.query(sql5, function(err, rows, fields, resp) {
+        if (err) throw err;
+        console.log(rows);
+        res.json({"success": "true"});
+        // res.json(rows);
       });
     })
 
